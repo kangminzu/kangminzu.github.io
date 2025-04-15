@@ -19,12 +19,12 @@ minimal_mistakes_skin: "plum" # "default" "air", "aqua", ...
 
 # Site Settings
 locale: "ko-KR" #"en-US"
-title: "Blog Name Here" # 상단 헤더에 보이는 블로그 명
+title: "minzu" # 상단 헤더에 보이는 블로그 명
 title_separator: "&#124;"
 subtitle: # site tagline that appears below site title in masthead
-name: "your name here" # 블로그 닉네임 설정
+name: "minzu" # 블로그 닉네임 설정
 description: "this is my blog!" # 블로그 설명
-url: "https://github-account.github.io" # 블로그 URL
+url: "https://kangminzu.github.io" # 블로그 URL
 baseurl: # the subpath of your site, e.g. "/blog"
 repository: "github-account/github-account.github.io" # GitHub Repo 이름
 teaser: #
@@ -97,8 +97,8 @@ analytics:
     anonymize_ip: # true, false (default)
 
 # Site Author
-author:
-  name: "your name here" # 블로그 닉네임
+author: minzu
+  name: "minzu" # 블로그 닉네임
   avatar: "/assets/images/meee.png" # 블로그 프로필 사진
   #   bio              : "hi all!"
   # location         : "Seoul, Korea"
@@ -135,7 +135,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
+      url: "https://github.com/kangminzu"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
