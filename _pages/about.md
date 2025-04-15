@@ -1,5 +1,5 @@
 ---
-title: "Hi all! I'm OOOOOO👋🏻"
+title: "Hi! I'm minzu👋🏻"
 permalink: /about/
 layout: single
 comments: false
