@@ -97,7 +97,7 @@ analytics:
     anonymize_ip: # true, false (default)
 
 # Site Author
-author: minzu
+author:
   name: "minzu" # 블로그 닉네임
   avatar: "/assets/images/meee.png" # 블로그 프로필 사진
   #   bio              : "hi all!"
