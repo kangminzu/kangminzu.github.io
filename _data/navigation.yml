@@ -20,6 +20,9 @@ main:
 categories:
   - title: "CS"
     url: /categories/cs/
+     children:
+      - title: "DataStructure"
+        url: /categories/datastructure/
   - title: "WriteUp"
     url: /categories/writeup/
   - title: "Pwnable"
