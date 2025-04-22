@@ -3,7 +3,7 @@ title: "WriteUp"
 layout: category
 permalink: /categories/writeup/
 author_profile: true
-taxonomy: writeup
+taxonomy: WriteUp
 sidebar:
   nav: "categories"
 ---
