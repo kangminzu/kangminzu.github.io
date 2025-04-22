@@ -20,6 +20,8 @@ main:
 categories:
   - title: "CS"
     url: /categories/cs/
+  - title: "WriteUp"
+    url: /categories/writeup/
   - title: "Pwnable"
     url: /categories/pwnable/
   - title: "Reversing"
