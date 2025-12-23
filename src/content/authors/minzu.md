@@ -2,7 +2,7 @@
 name: 'minzu'
 pronouns: 'she/her'
 avatar: '/static/profile.png'
-bio: 'Windows Pwnable'
+bio: 'Windows Pwnable Researcher'
 focus: 'Windows Pwnable, Reverse Engineering'
 interests: 'Windows, Windows Kernel'
 language: 'Korean (Native), English (Bilingual)'
