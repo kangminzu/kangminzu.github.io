@@ -12,7 +12,8 @@ interface Props {
 
 const { project } = Astro.props
 const isCtfProject = project.collection === 'ctfProjects'
-const isLinkDisabled = isCtfProject || !project.data.link
+const link = project.data.link
+const isLinkDisabled = isCtfProject || !link
 ---
 
 <div
@@ -69,7 +70,7 @@ const isLinkDisabled = isCtfProject || !project.data.link
       </div>
     ) : (
       <Link
-        href={project.data.link}
+        href={link!}
         class="flex flex-col gap-4 sm:flex-row"
         external
       >
