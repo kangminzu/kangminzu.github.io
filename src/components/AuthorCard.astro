@@ -22,6 +22,7 @@ const socialLinks: SocialLink[] = [
   author.data.linkedin && { href: author.data.linkedin, label: 'LinkedIn' },
   author.data.mail && { href: `mailto:${author.data.mail}`, label: 'Email' },
 ].filter(Boolean) as SocialLink[]
+
 ---
 
 <div
@@ -54,7 +55,7 @@ const socialLinks: SocialLink[] = [
             )
           }
         </div>
-        <p class="text-muted-foreground text-sm">{bio}</p>
+        {bio && <p class="text-muted-foreground text-sm">{bio}</p>}
       </div>
       <SocialIcons links={socialLinks} />
     </div>

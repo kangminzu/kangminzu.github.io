@@ -27,13 +27,22 @@ const { links } = Astro.props
             >
               {
                 label === 'LinkedIn' ? (
-                  <img
-                    src="/static/linkedin-white.svg"
-                    alt=""
-                    aria-hidden="true"
-                    class="size-4"
-                    loading="lazy"
-                  />
+                  <>
+                    <img
+                      src="/static/linkedin-black.svg"
+                      alt=""
+                      aria-hidden="true"
+                      class="size-4 dark:hidden"
+                      loading="lazy"
+                    />
+                    <img
+                      src="/static/linkedin-white.svg"
+                      alt=""
+                      aria-hidden="true"
+                      class="hidden size-4 dark:block"
+                      loading="lazy"
+                    />
+                  </>
                 ) : (
                   <Icon
                     name={

@@ -38,6 +38,11 @@ const authors = defineCollection({
     pronouns: z.string().optional(),
     avatar: z.string().url().or(z.string().startsWith('/')),
     bio: z.string().optional(),
+    focus: z.string().optional(),
+    interests: z.string().optional(),
+    language: z.string().optional(),
+    location: z.string().optional(),
+    contact: z.string().optional(),
     mail: z.string().email().optional(),
     website: z.string().url().optional(),
     twitter: z.string().url().optional(),
@@ -61,4 +66,18 @@ const projects = defineCollection({
     }),
 })
 
-export const collections = { blog, ctf, authors, projects }
+const ctfProjects = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/ctf-projects' }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      tags: z.array(z.string()),
+      image: image(),
+      link: z.string().url(),
+      startDate: z.coerce.date().optional(),
+      endDate: z.coerce.date().optional(),
+    }),
+})
+
+export const collections = { blog, ctf, authors, projects, ctfProjects }

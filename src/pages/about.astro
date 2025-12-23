@@ -1,11 +1,20 @@
 ---
+import AuthorCard from '@/components/AuthorCard.astro'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getAllProjects } from '@/lib/data-utils'
+import {
+  getAllAuthors,
+  getAllCtfProjects,
+  getAllProjects,
+} from '@/lib/data-utils'
 
+const authors = await getAllAuthors()
+const ctfProjects = await getAllCtfProjects()
 const projects = await getAllProjects()
+const [ctfPreview, ...ctfRest] = ctfProjects
+const [projectPreview, ...projectRest] = projects
 ---
 
 <Layout class="max-w-3xl">
@@ -14,19 +23,102 @@ const projects = await getAllProjects()
 
   <section>
     <div class="min-w-full">
-      <div class="prose mb-8">
-        <p class="mt-0">
-          Write a brief bio or mission statement here. Keep it short and direct
-          so visitors quickly understand who you are and what you do.
-        </p>
-        <p>
-          Add any links or details you want people to find on this page.
-        </p>
+      <h2 class="mb-4 text-2xl font-medium">Author</h2>
+      <div class="mb-10 flex flex-col gap-4">
+        {authors.map((author) => <AuthorCard author={author} />)}
       </div>
 
-      <h2 class="mb-4 text-2xl font-medium">Example Projects Listing</h2>
-      <div class="flex flex-col gap-4">
-        {projects.map((project) => <ProjectCard project={project} />)}
+      <div class="prose mb-8">
+        <dl class="grid grid-cols-[7rem_1fr] gap-x-4 gap-y-2">
+          <dt class="text-muted-foreground">Focus</dt>
+          <dd>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border px-2 py-0.5 text-xs">Windows Pwnable</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Reverse Engineering</span>
+            </div>
+          </dd>
+
+          <dt class="text-muted-foreground">Interests</dt>
+          <dd>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border px-2 py-0.5 text-xs">Windows</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Windows Kernel</span>
+            </div>
+          </dd>
+
+          <dt class="text-muted-foreground">Language</dt>
+          <dd>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border px-2 py-0.5 text-xs">Korean — Native</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">English — Bilingual</span>
+            </div>
+          </dd>
+
+          <dt class="text-muted-foreground">Location</dt>
+          <dd>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border px-2 py-0.5 text-xs">Soeul</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Incheon</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Remote</span>
+            </div>
+          </dd>
+
+          <dt class="text-muted-foreground">Contact</dt>
+          <dd>
+            <div class="flex flex-wrap gap-2">
+              <span class="rounded-full border px-2 py-0.5 text-xs">minzu4012@gmail.com</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Discord: min._.zu</span>
+            </div>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="flex flex-col gap-10">
+        <section>
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-2xl font-medium">CTF</h2>
+          </div>
+          <div class="flex flex-col gap-4">
+            {ctfPreview && <ProjectCard project={ctfPreview} />}
+            {
+              ctfRest.length > 0 && (
+                <details class="rounded-lg border">
+                  <summary class="cursor-pointer px-4 py-3 text-sm font-medium">
+                    View more
+                  </summary>
+                  <div class="flex flex-col gap-4 px-4 pb-4">
+                    {ctfRest.map((project) => (
+                      <ProjectCard project={project} />
+                    ))}
+                  </div>
+                </details>
+              )
+            }
+          </div>
+        </section>
+
+        <section>
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-2xl font-medium">프로젝트</h2>
+          </div>
+          <div class="flex flex-col gap-4">
+            {projectPreview && <ProjectCard project={projectPreview} />}
+            {
+              projectRest.length > 0 && (
+                <details class="rounded-lg border">
+                  <summary class="cursor-pointer px-4 py-3 text-sm font-medium">
+                    View more
+                  </summary>
+                  <div class="flex flex-col gap-4 px-4 pb-4">
+                    {projectRest.map((project) => (
+                      <ProjectCard project={project} />
+                    ))}
+                  </div>
+                </details>
+              )
+            }
+          </div>
+        </section>
       </div>
     </div>
   </section>

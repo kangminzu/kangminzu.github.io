@@ -7,49 +7,66 @@ import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
 
-const blog = await getRecentPosts(SITE.featuredPostCount)
+const blogPosts = await getRecentPosts(SITE.featuredPostCount, 'blog')
+const ctfPosts = await getRecentPosts(SITE.featuredPostCount, 'ctf')
 ---
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="Home" />
-  <section class="rounded-lg border">
-    <div class="flex flex-col space-y-1.5 p-6">
-      <h3 class="text-3xl leading-none font-medium">er·u·dite</h3>
-      <p class="text-muted-foreground text-sm">
-        /ˈer(y)əˌdīt/ &bull; <span class="font-medium">adjective</span>
-      </p>
-    </div>
-    <div class="p-6 pt-0">
-      <p class="text-muted-foreground mb-2 text-sm">
-        Add a short intro about your site here. Keep it focused on what you
-        publish and who it is for.
-      </p>
-      <p class="text-muted-foreground text-sm">
-        Use this space for a quick highlight or a link to something important.
-      </p>
-    </div>
+  <section class="mx-auto flex w-full items-center justify-center rounded-lg border py-10 text-center">
+    <h3 class="text-3xl leading-none font-medium">
+      Don't make it harder than it has to be
+    </h3>
   </section>
-  <section class="flex flex-col gap-y-4">
-    <h2 class="text-2xl font-medium">Latest posts</h2>
-    <ul class="flex flex-col gap-y-4">
-      {
-        blog.map((post) => (
-          <li>
-            <BlogCard entry={post} />
-          </li>
-        ))
-      }
-    </ul>
-    <div class="flex justify-center">
-      <Link
-        href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
-      >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
-          >&rarr;</span
-        >
-      </Link>
+  <section class="mx-auto flex w-full flex-col gap-y-6">
+    <h2 class="text-2xl font-medium text-center">Latest posts</h2>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-center">Blog</h3>
+        <ul class="flex flex-col gap-y-4">
+          {
+            blogPosts.map((post) => (
+              <li>
+                <BlogCard entry={post} />
+              </li>
+            ))
+          }
+        </ul>
+        <div class="flex justify-center">
+          <Link
+            href="/blog"
+            class={buttonVariants({ variant: 'ghost' }) + ' group'}
+          >
+            See all Blog <span
+              class="ml-1.5 transition-transform group-hover:translate-x-1"
+              >&rarr;</span
+            >
+          </Link>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <h3 class="text-lg font-medium text-center">CTF</h3>
+        <ul class="flex flex-col gap-y-4">
+          {
+            ctfPosts.map((post) => (
+              <li>
+                <BlogCard entry={post} />
+              </li>
+            ))
+          }
+        </ul>
+        <div class="flex justify-center">
+          <Link
+            href="/ctf"
+            class={buttonVariants({ variant: 'ghost' }) + ' group'}
+          >
+            See all CTF <span
+              class="ml-1.5 transition-transform group-hover:translate-x-1"
+              >&rarr;</span
+            >
+          </Link>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>
