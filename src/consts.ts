@@ -14,11 +14,19 @@ export const SITE: Site = {
 export const NAV_LINKS: SocialLink[] = [
   {
     href: '/ctf',
-    label: 'ctf',
+    label: 'CTF',
   },
   {
     href: '/blog',
     label: 'blog',
+  },
+  {
+    href: '/authors',
+    label: 'authors',
+  },
+  {
+    href: '/about',
+    label: 'about',
   },
 ]
 
@@ -46,6 +54,7 @@ export const ICON_MAP: IconMap = {
   GitHub: 'lucide:github',
   LinkedIn: 'lucide:linkedin',
   Twitter: 'lucide:twitter',
+  X: 'lucide:twitter',
   Email: 'lucide:mail',
   RSS: 'lucide:rss',
 }

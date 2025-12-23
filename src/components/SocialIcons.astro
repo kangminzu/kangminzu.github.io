@@ -16,21 +16,54 @@ const { links } = Astro.props
   {
     links.map(({ href, label }) => (
       <li>
-        <Link
-          href={href}
-          aria-label={label}
-          title={label}
-          class={buttonVariants({ variant: 'outline', size: 'icon' })}
-          external
-        >
-          <Icon
-            name={
-              ICON_MAP[label as keyof typeof ICON_MAP] ||
-              'lucide:message-circle-question'
-            }
-            class="size-4"
-          />
-        </Link>
+        {
+          href ? (
+            <Link
+              href={href}
+              aria-label={label}
+              title={label}
+              class={buttonVariants({ variant: 'outline', size: 'icon' })}
+              external
+            >
+              {
+                label === 'LinkedIn' ? (
+                  <img
+                    src="/static/linkedin-white.svg"
+                    alt=""
+                    aria-hidden="true"
+                    class="size-4"
+                    loading="lazy"
+                  />
+                ) : (
+                  <Icon
+                    name={
+                      ICON_MAP[label as keyof typeof ICON_MAP] ||
+                      'lucide:message-circle-question'
+                    }
+                    class="size-4"
+                  />
+                )
+              }
+            </Link>
+          ) : (
+            <span
+              aria-label={label}
+              title={label}
+              class={
+                buttonVariants({ variant: 'outline', size: 'icon' }) +
+                ' pointer-events-none opacity-60'
+              }
+            >
+              <Icon
+                name={
+                  ICON_MAP[label as keyof typeof ICON_MAP] ||
+                  'lucide:message-circle-question'
+                }
+                class="size-4"
+              />
+            </span>
+          )
+        }
       </li>
     ))
   }
