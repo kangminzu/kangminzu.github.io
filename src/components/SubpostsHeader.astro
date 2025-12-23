@@ -8,32 +8,45 @@ import {
   getPostReadingTime,
   getSubpostsForParent,
   isSubpost,
+  type PostCollection,
 } from '@/lib/data-utils'
 import { Icon } from 'astro-icon/components'
 
-const { parentId } = Astro.props
+const {
+  parentId,
+  collectionName = 'blog',
+  basePath = '/blog',
+} = Astro.props as {
+  parentId: string
+  collectionName?: PostCollection
+  basePath?: string
+}
 const currentPostId = Astro.params.id as string
 const isCurrentSubpost = isSubpost(currentPostId)
 const rootParentId = isCurrentSubpost ? getParentId(currentPostId) : parentId
 
-const currentPost = !isCurrentSubpost ? await getPostById(currentPostId) : null
-const subposts = await getSubpostsForParent(rootParentId)
-const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
+const currentPost = !isCurrentSubpost
+  ? await getPostById(currentPostId, collectionName)
+  : null
+const subposts = await getSubpostsForParent(rootParentId, collectionName)
+const parentPost = isCurrentSubpost
+  ? await getParentPost(currentPostId, collectionName)
+  : null
 
 const activePost = parentPost || currentPost
 const isActivePost = activePost?.id === currentPostId
 
 const activePostReadingTime = activePost
-  ? await getPostReadingTime(activePost.id)
+  ? await getPostReadingTime(activePost.id, collectionName)
   : null
 const activePostCombinedReadingTime =
   activePost && subposts.length > 0
-    ? await getCombinedReadingTime(activePost.id)
+    ? await getCombinedReadingTime(activePost.id, collectionName)
     : null
 const subpostsWithReadingTime = await Promise.all(
   subposts.map(async (subpost) => ({
     ...subpost,
-    readingTime: await getPostReadingTime(subpost.id),
+    readingTime: await getPostReadingTime(subpost.id, collectionName),
   })),
 )
 
@@ -114,7 +127,7 @@ const currentSubpostDetails = isCurrentSubpost
                     </div>
                   ) : (
                     <a
-                      href={`/blog/${activePost.id}`}
+                      href={`${basePath}/${activePost.id}`}
                       class="mobile-subposts-link hover:text-foreground text-muted-foreground hover:bg-muted/50 flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
                     >
                       <Icon
@@ -147,8 +160,8 @@ const currentSubpostDetails = isCurrentSubpost
 
               {subpostsWithReadingTime.length > 0 && (
                 <div class="ml-4 space-y-1">
-                  {subpostsWithReadingTime.map((subpost) =>
-                    currentPostId === subpost.id ? (
+                      {subpostsWithReadingTime.map((subpost) =>
+                        currentPostId === subpost.id ? (
                       <div class="text-foreground bg-muted mobile-subposts-active-item flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium">
                         <Icon
                           name="lucide:file-text"
@@ -162,11 +175,11 @@ const currentSubpostDetails = isCurrentSubpost
                           </span>
                         </div>
                       </div>
-                    ) : (
-                      <a
-                        href={`/blog/${subpost.id}`}
-                        class="mobile-subposts-link hover:text-foreground text-muted-foreground hover:bg-muted/50 flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
-                      >
+                        ) : (
+                          <a
+                            href={`${basePath}/${subpost.id}`}
+                            class="mobile-subposts-link hover:text-foreground text-muted-foreground hover:bg-muted/50 flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors"
+                          >
                         <Icon
                           name="lucide:file"
                           class="size-4 flex-shrink-0"

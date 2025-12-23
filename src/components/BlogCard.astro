@@ -6,6 +6,7 @@ import {
   getCombinedReadingTime,
   getSubpostCount,
   isSubpost,
+  type PostCollection,
   parseAuthors,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
@@ -15,14 +16,17 @@ import type { CollectionEntry } from 'astro:content'
 import Link from './Link.astro'
 
 interface Props {
-  entry: CollectionEntry<'blog'>
+  entry: CollectionEntry<PostCollection>
 }
 
 const { entry } = Astro.props
+const collectionName = entry.collection as PostCollection
 const formattedDate = formatDate(entry.data.date)
-const readTime = await getCombinedReadingTime(entry.id)
+const readTime = await getCombinedReadingTime(entry.id, collectionName)
 const authors = await parseAuthors(entry.data.authors ?? [])
-const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
+const subpostCount = !isSubpost(entry.id)
+  ? await getSubpostCount(entry.id, collectionName)
+  : 0
 ---
 
 <div
