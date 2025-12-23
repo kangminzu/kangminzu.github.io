@@ -1,4 +1,4 @@
-import type { IconMap, SocialLink, Site } from '@/types'
+import type { IconMap, NavLink, SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
   title: 'astro-erudite',
@@ -11,7 +11,7 @@ export const SITE: Site = {
   postsPerPage: 3,
 }
 
-export const NAV_LINKS: SocialLink[] = [
+export const NAV_LINKS: NavLink[] = [
   {
     href: '/ctf',
     label: 'CTF',
