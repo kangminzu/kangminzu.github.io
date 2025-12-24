@@ -1,5 +1,6 @@
 ---
 name: 'Cykor CTF'
+highlights: ['1 Solve', '1 First Blood']
 tags: ['@everyone', '6th']
 image: '../../../public/static/CykorCTF.jpeg'
 startDate: '2025-12-06'

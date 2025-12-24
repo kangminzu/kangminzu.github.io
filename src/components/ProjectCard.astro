@@ -20,6 +20,7 @@ const image = project.data.image
 const hasDetails =
   !!project.data.target || !!project.data.affiliation
 const showDate = !!project.data.startDate
+const highlights = project.data.highlights ?? []
 const formatCtfRange = () => {
   if (!project.data.startDate) return ''
   const start = formatDate(project.data.startDate)
@@ -96,6 +97,13 @@ const layoutClass =
             )
           }
           {
+            highlights.length > 0 && (
+              <p class="text-muted-foreground mt-2 text-xs">
+                {highlights.join(' · ')}
+              </p>
+            )
+          }
+          {
             showDate && (
               <p class="text-muted-foreground/70 mt-2 flex items-center gap-x-1.5 text-xs">
                 <Icon name="lucide:calendar" class="size-3" />
@@ -156,6 +164,13 @@ const layoutClass =
             project.data.description && (
               <p class="text-muted-foreground mb-2 text-sm">
                 {project.data.description}
+              </p>
+            )
+          }
+          {
+            highlights.length > 0 && (
+              <p class="text-muted-foreground mt-2 text-xs">
+                {highlights.join(' · ')}
               </p>
             )
           }
@@ -244,6 +259,13 @@ const layoutClass =
             project.data.description && (
               <p class="text-muted-foreground mb-2 text-sm">
                 {project.data.description}
+              </p>
+            )
+          }
+          {
+            highlights.length > 0 && (
+              <p class="text-muted-foreground mt-2 text-xs">
+                {highlights.join(' · ')}
               </p>
             )
           }

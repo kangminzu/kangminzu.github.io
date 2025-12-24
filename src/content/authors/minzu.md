@@ -9,7 +9,7 @@ language: 'Korean (Native), English (Bilingual)'
 location: 'Soeul, Incheon (or Remote)'
 contact: 'minzu4012@gmail.com'
 github: 'https://github.com/kangminzu'
-twitter: 'https://x.com'
+twitter: 'https://x.com/m_in__zu'
 linkedin: 'https://www.linkedin.com/in/minju-kang-11472b2b6/'
 mail: 'minzu4012@gmail.com'
 ---

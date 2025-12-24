@@ -83,6 +83,7 @@ const ctfProjects = defineCollection({
       link: z.string().url().optional(),
       target: z.string().optional(),
       affiliation: z.string().optional(),
+      highlights: z.array(z.string()).optional(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
     }),
