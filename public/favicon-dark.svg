@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="MINZU">
+  <rect x="4" y="4" width="120" height="120" rx="12" fill="#111111" stroke="#ffffff" stroke-width="4" />
+  <text
+    x="64"
+    y="72"
+    text-anchor="middle"
+    font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    font-size="24"
+    letter-spacing="4"
+    fill="#ffffff"
+  >MINZU</text>
+</svg>
