@@ -14,52 +14,180 @@ const { project } = Astro.props
 const isCtfProject = project.collection === 'ctfProjects'
 const link = project.data.link
 const isLinkDisabled = isCtfProject || !link
+const imageLight = project.data.imageLight
+const imageDark = project.data.imageDark
+const image = project.data.image
+const hasDetails =
+  !!project.data.target || !!project.data.affiliation
+const showDate = !!project.data.startDate
+const formatCtfRange = () => {
+  if (!project.data.startDate) return ''
+  const start = formatDate(project.data.startDate)
+  const end = project.data.endDate ? formatDate(project.data.endDate) : 'Present'
+  return `${start} → ${end}`
+}
+const formatProjectRange = () => {
+  if (!project.data.startDate) return ''
+  const start = formatMonthYear(project.data.startDate)
+  const end = project.data.endDate ? formatMonthYear(project.data.endDate) : 'Present'
+  return `${start} → ${end}`
+}
+const formatMonthYear = (date: Date) =>
+  new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    year: 'numeric',
+  }).format(date)
+const imageWrapperClass =
+  'bg-muted/30 flex h-24 w-40 shrink-0 items-center justify-center overflow-hidden rounded-md border'
 ---
 
 <div
   class="hover:bg-muted/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
 >
   {
-    isLinkDisabled ? (
-      <div class="flex flex-col gap-4 sm:flex-row">
+    isCtfProject ? (
+      <a
+        href={`/ctf/tags/${encodeURIComponent(project.data.name)}`}
+        class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start"
+      >
         {
-          project.data.image && (
-            <div class="w-full sm:max-w-3xs sm:shrink-0">
+          imageLight && imageDark ? (
+            <div class={imageWrapperClass}>
               <Image
-                src={project.data.image}
+                src={imageLight}
                 alt={project.data.name}
                 width={1200}
                 height={630}
-                class="object-cover"
+                class="object-contain dark:hidden"
+              />
+              <Image
+                src={imageDark}
+                alt={project.data.name}
+                width={1200}
+                height={630}
+                class="hidden object-contain dark:block"
               />
             </div>
+          ) : (
+            image && (
+              <div class={imageWrapperClass}>
+                <Image
+                  src={image}
+                  alt={project.data.name}
+                  width={1200}
+                  height={630}
+                  class="object-contain"
+                />
+              </div>
+            )
           )
         }
         <div class="grow">
           <h3 class="mb-1 text-lg font-medium">
             {project.data.name}
           </h3>
-          <p class="text-muted-foreground mb-2 text-sm">
-            {project.data.description}
-          </p>
           {
-            project.data.startDate && (
-              <p class="text-muted-foreground/70 mb-2 flex items-center gap-x-1.5 text-xs">
-                <span class="flex items-center gap-x-1.5">
-                  <Icon name="lucide:calendar" class="size-3" />
-                  <span>
-                    {formatDate(project.data.startDate)}
-                    {project.data.endDate
-                      ? ` → ${formatDate(project.data.endDate)}`
-                      : ' → Present'}
-                  </span>
+            project.data.description && (
+              <p class="text-muted-foreground mb-2 text-sm">
+                {project.data.description}
+              </p>
+            )
+          }
+          {
+            showDate && (
+              <p class="text-muted-foreground/70 mt-2 flex items-center gap-x-1.5 text-xs">
+                <Icon name="lucide:calendar" class="size-3" />
+                <span>{formatCtfRange()}</span>
+              </p>
+            )
+          }
+          {
+            project.data.tags && (
+              <div class="mt-2 flex flex-wrap gap-2">
+                {project.data.tags.map((tag: string) => (
+                  <Badge variant="muted">{tag}</Badge>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </a>
+    ) : isLinkDisabled ? (
+      <div class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start">
+        {
+          imageLight && imageDark ? (
+            <div class={imageWrapperClass}>
+              <Image
+                src={imageLight}
+                alt={project.data.name}
+                width={1200}
+                height={630}
+                class="object-contain dark:hidden"
+              />
+              <Image
+                src={imageDark}
+                alt={project.data.name}
+                width={1200}
+                height={630}
+                class="hidden object-contain dark:block"
+              />
+            </div>
+          ) : (
+            image && (
+              <div class={imageWrapperClass}>
+                <Image
+                  src={image}
+                  alt={project.data.name}
+                  width={1200}
+                  height={630}
+                  class="object-contain"
+                />
+              </div>
+            )
+          )
+        }
+        <div class="grow">
+          <h3 class="mb-1 text-lg font-medium">
+            {project.data.name}
+          </h3>
+          {
+            project.data.description && (
+              <p class="text-muted-foreground mb-2 text-sm">
+                {project.data.description}
+              </p>
+            )
+          }
+          {
+            hasDetails && (
+              <dl class="text-muted-foreground mt-2 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-1 text-xs">
+                {project.data.target && (
+                  <>
+                    <dt>Target</dt>
+                    <dd>{project.data.target}</dd>
+                  </>
+                )}
+                {project.data.affiliation && (
+                  <>
+                    <dt>Affiliation</dt>
+                    <dd>{project.data.affiliation}</dd>
+                  </>
+                )}
+              </dl>
+            )
+          }
+          {
+            showDate && (
+              <p class="text-muted-foreground/70 mt-2 flex items-center gap-x-1.5 text-xs">
+                <Icon name="lucide:calendar" class="size-3" />
+                <span>
+                  {formatProjectRange()}
                 </span>
               </p>
             )
           }
           {
             project.data.tags && (
-              <div class="flex flex-wrap gap-2">
+              <div class="mt-2 flex flex-wrap gap-2">
                 {project.data.tags.map((tag: string) => (
                   <Badge variant="muted">{tag}</Badge>
                 ))}
@@ -71,47 +199,83 @@ const isLinkDisabled = isCtfProject || !link
     ) : (
       <Link
         href={link!}
-        class="flex flex-col gap-4 sm:flex-row"
+        class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start"
         external
       >
         {
-          project.data.image && (
-            <div class="w-full sm:max-w-3xs sm:shrink-0">
+          imageLight && imageDark ? (
+            <div class={imageWrapperClass}>
               <Image
-                src={project.data.image}
+                src={imageLight}
                 alt={project.data.name}
                 width={1200}
                 height={630}
-                class="object-cover"
+                class="object-contain dark:hidden"
+              />
+              <Image
+                src={imageDark}
+                alt={project.data.name}
+                width={1200}
+                height={630}
+                class="hidden object-contain dark:block"
               />
             </div>
+          ) : (
+            image && (
+              <div class={imageWrapperClass}>
+                <Image
+                  src={image}
+                  alt={project.data.name}
+                  width={1200}
+                  height={630}
+                  class="object-contain"
+                />
+              </div>
+            )
           )
         }
         <div class="grow">
           <h3 class="mb-1 text-lg font-medium">
             {project.data.name}
           </h3>
-          <p class="text-muted-foreground mb-2 text-sm">
-            {project.data.description}
-          </p>
           {
-            project.data.startDate && (
-              <p class="text-muted-foreground/70 mb-2 flex items-center gap-x-1.5 text-xs">
-                <span class="flex items-center gap-x-1.5">
-                  <Icon name="lucide:calendar" class="size-3" />
-                  <span>
-                    {formatDate(project.data.startDate)}
-                    {project.data.endDate
-                      ? ` → ${formatDate(project.data.endDate)}`
-                      : ' → Present'}
-                  </span>
+            project.data.description && (
+              <p class="text-muted-foreground mb-2 text-sm">
+                {project.data.description}
+              </p>
+            )
+          }
+          {
+            hasDetails && (
+              <dl class="text-muted-foreground mt-2 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-1 text-xs">
+                {project.data.target && (
+                  <>
+                    <dt>Target</dt>
+                    <dd>{project.data.target}</dd>
+                  </>
+                )}
+                {project.data.affiliation && (
+                  <>
+                    <dt>Affiliation</dt>
+                    <dd>{project.data.affiliation}</dd>
+                  </>
+                )}
+              </dl>
+            )
+          }
+          {
+            showDate && (
+              <p class="text-muted-foreground/70 mt-2 flex items-center gap-x-1.5 text-xs">
+                <Icon name="lucide:calendar" class="size-3" />
+                <span>
+                  {formatProjectRange()}
                 </span>
               </p>
             )
           }
           {
             project.data.tags && (
-              <div class="flex flex-wrap gap-2">
+              <div class="mt-2 flex flex-wrap gap-2">
                 {project.data.tags.map((tag: string) => (
                   <Badge variant="muted">{tag}</Badge>
                 ))}

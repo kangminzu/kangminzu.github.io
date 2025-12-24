@@ -1,8 +1,11 @@
 ---
 name: 'Windows Kernel Driver Vulnerability Analysis'
-description: 'Target: Windows built-in Driver, BOB 14'
+description: 'Kernel driver vulnerability analysis project.'
 tags: ['Windows Pwnable', 'Windows Reversing', 'Windows Kernel']
-image: '../../../public/static/1200x630.png'
+imageLight: '../../../public/static/project-kernel-light.png'
+imageDark: '../../../public/static/project-kernel-dark.png'
+target: 'Windows built-in Driver'
+affiliation: 'BoB 14'
 startDate: '2025-09-01'
 endDate: '2025-12-31'
 ---

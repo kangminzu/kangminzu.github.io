@@ -13,8 +13,10 @@ import {
 const authors = await getAllAuthors()
 const ctfProjects = await getAllCtfProjects()
 const projects = await getAllProjects()
-const [ctfPreview, ...ctfRest] = ctfProjects
-const [projectPreview, ...projectRest] = projects
+const ctfPreview = ctfProjects.slice(0, 2)
+const ctfRest = ctfProjects.slice(2)
+const projectPreview = projects.slice(0, 2)
+const projectRest = projects.slice(2)
 ---
 
 <Layout class="max-w-3xl">
@@ -79,7 +81,9 @@ const [projectPreview, ...projectRest] = projects
             <h2 class="text-2xl font-medium">CTF</h2>
           </div>
           <div class="flex flex-col gap-4">
-            {ctfPreview && <ProjectCard project={ctfPreview} />}
+            {ctfPreview.map((project) => (
+              <ProjectCard project={project} />
+            ))}
             {
               ctfRest.length > 0 && (
                 <details class="rounded-lg border">
@@ -102,7 +106,9 @@ const [projectPreview, ...projectRest] = projects
             <h2 class="text-2xl font-medium">PROJECT</h2>
           </div>
           <div class="flex flex-col gap-4">
-            {projectPreview && <ProjectCard project={projectPreview} />}
+            {projectPreview.map((project) => (
+              <ProjectCard project={project} />
+            ))}
             {
               projectRest.length > 0 && (
                 <details class="rounded-lg border">

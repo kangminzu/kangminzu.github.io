@@ -1,0 +1,61 @@
+---
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import BlogCard from '@/components/BlogCard.astro'
+import {
+  getAllCtfProjects,
+  getAllTagsForCollection,
+  getPostsByTag,
+} from '@/lib/data-utils'
+
+export async function getStaticPaths() {
+  const ctfProjects = await getAllCtfProjects()
+  const tags = new Set<string>()
+  const projectTags = ctfProjects.flatMap((project) => project.data.tags || [])
+  projectTags.forEach((tag) => tags.add(tag))
+  ctfProjects.forEach((project) => tags.add(project.data.name))
+  const postTags = await getAllTagsForCollection('ctf')
+  postTags.forEach((_count, tag) => tags.add(tag))
+
+  return Array.from(tags).map((tag) => ({
+    params: { id: tag },
+    props: { tag },
+  }))
+}
+
+const { tag } = Astro.props
+const posts = await getPostsByTag(tag, 'ctf')
+---
+
+<Layout class="max-w-3xl">
+  <PageHead
+    slot="head"
+    title={`CTF: ${tag}`}
+    description={`CTF posts tagged with ${tag}.`}
+    noindex
+  />
+  <Breadcrumbs
+    items={[
+      { href: '/ctf', label: 'CTF', icon: 'lucide:flag' },
+      { href: '/ctf/tags', label: 'Tags', icon: 'lucide:tags' },
+      { label: tag, icon: 'lucide:tag' },
+    ]}
+  />
+
+  {
+    posts.length > 0 ? (
+      <ul class="flex flex-col gap-y-4">
+        {posts.map((post) => (
+          <li>
+            <BlogCard entry={post} tagBasePath="/ctf/tags" />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="text-muted-foreground rounded-lg border p-6 text-sm">
+        No writeups yet.
+      </div>
+    )
+  }
+</Layout>

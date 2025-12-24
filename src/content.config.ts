@@ -59,8 +59,12 @@ const projects = defineCollection({
       name: z.string(),
       description: z.string(),
       tags: z.array(z.string()),
-      image: image(),
+      image: image().optional(),
+      imageLight: image().optional(),
+      imageDark: image().optional(),
       link: z.string().url().optional(),
+      target: z.string().optional(),
+      affiliation: z.string().optional(),
       startDate: z.coerce.date().optional(),
       endDate: z.coerce.date().optional(),
     }),
@@ -71,7 +75,7 @@ const ctfProjects = defineCollection({
   schema: ({ image }) =>
     z.object({
       name: z.string(),
-      description: z.string(),
+      description: z.string().optional(),
       tags: z.array(z.string()),
       image: image(),
       link: z.string().url().optional(),

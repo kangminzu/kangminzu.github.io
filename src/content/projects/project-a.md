@@ -1,8 +1,11 @@
 ---
 name: 'Windows Software Vulnerability Analysis'
-description: 'Target: ALSee, MuseScore WHS 2'
+description: 'Software vulnerability analysis project.'
 tags: ['Windows Pwnable', 'Windows Reversing']
-image: '../../../public/static/1200x630.png'
+imageLight: '../../../public/static/project-software-light.png'
+imageDark: '../../../public/static/project-software-dark.png'
+target: 'ALSee, MuseScore'
+affiliation: 'WHS 2'
 startDate: '2024-05-01'
 endDate: '2024-08-31'
 ---

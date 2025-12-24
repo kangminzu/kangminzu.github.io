@@ -27,7 +27,7 @@ const ctfPosts = await getRecentPosts(SITE.featuredPostCount, 'ctf')
           {
             blogPosts.map((post) => (
               <li>
-                <BlogCard entry={post} />
+                <BlogCard entry={post} tagBasePath="/tags" />
               </li>
             ))
           }
@@ -50,7 +50,7 @@ const ctfPosts = await getRecentPosts(SITE.featuredPostCount, 'ctf')
           {
             ctfPosts.map((post) => (
               <li>
-                <BlogCard entry={post} />
+                <BlogCard entry={post} tagBasePath="/ctf/tags" />
               </li>
             ))
           }

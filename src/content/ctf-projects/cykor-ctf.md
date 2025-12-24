@@ -1,0 +1,7 @@
+---
+name: 'Cykor CTF'
+tags: ['@everyone', '6th']
+image: '../../../public/static/CykorCTF.jpeg'
+startDate: '2025-12-06'
+endDate: '2025-12-07'
+---

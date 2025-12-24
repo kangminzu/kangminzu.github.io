@@ -45,14 +45,20 @@ export async function getAllCtfProjects(): Promise<
   })
 }
 
-export async function getAllTags(): Promise<Map<string, number>> {
-  const posts = await getAllPosts()
+export async function getAllTagsForCollection(
+  collectionName: PostCollection = 'blog',
+): Promise<Map<string, number>> {
+  const posts = await getAllPosts(collectionName)
   return posts.reduce((acc, post) => {
     post.data.tags?.forEach((tag) => {
       acc.set(tag, (acc.get(tag) || 0) + 1)
     })
     return acc
   }, new Map<string, number>())
+}
+
+export async function getAllTags(): Promise<Map<string, number>> {
+  return getAllTagsForCollection('blog')
 }
 
 export async function getAdjacentPosts(

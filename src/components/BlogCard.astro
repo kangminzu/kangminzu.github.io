@@ -1,6 +1,6 @@
 ---
 import AvatarComponent from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
+import { badgeVariants } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import {
   getCombinedReadingTime,
@@ -17,9 +17,10 @@ import Link from './Link.astro'
 
 interface Props {
   entry: CollectionEntry<PostCollection>
+  tagBasePath?: string
 }
 
-const { entry } = Astro.props
+const { entry, tagBasePath = '/tags' } = Astro.props
 const collectionName = entry.collection as PostCollection
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id, collectionName)
@@ -91,19 +92,22 @@ const subpostCount = !isSubpost(entry.id)
           )
         }
       </div>
-
-      {
-        entry.data.tags && (
-          <div class="flex flex-wrap gap-2">
-            {entry.data.tags.map((tag) => (
-              <Badge variant="muted" className="flex items-center gap-x-1">
-                <Icon name="lucide:hash" class="size-3" />
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )
-      }
     </div>
   </Link>
+
+  {
+    entry.data.tags && (
+      <div class="mt-3 flex flex-wrap gap-2">
+        {entry.data.tags.map((tag) => (
+          <a
+            href={`${tagBasePath}/${encodeURIComponent(tag)}`}
+            class={badgeVariants({ variant: 'muted' })}
+          >
+            <Icon name="lucide:hash" class="size-3" />
+            {tag}
+          </a>
+        ))}
+      </div>
+    )
+  }
 </div>
