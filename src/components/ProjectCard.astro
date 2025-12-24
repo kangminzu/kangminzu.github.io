@@ -38,7 +38,9 @@ const formatMonthYear = (date: Date) =>
     year: 'numeric',
   }).format(date)
 const imageWrapperClass =
-  'bg-muted/30 flex h-24 w-40 shrink-0 items-center justify-center overflow-hidden rounded-md border'
+  'bg-muted/30 flex h-24 w-full items-center justify-center overflow-hidden rounded-md border'
+const layoutClass =
+  'grid w-full gap-4 text-left sm:grid-cols-[10rem_1fr] sm:items-start'
 ---
 
 <div
@@ -48,7 +50,7 @@ const imageWrapperClass =
     isCtfProject ? (
       <a
         href={`/ctf/tags/${encodeURIComponent(project.data.name)}`}
-        class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start"
+        class={layoutClass}
       >
         {
           imageLight && imageDark ? (
@@ -113,7 +115,7 @@ const imageWrapperClass =
         </div>
       </a>
     ) : isLinkDisabled ? (
-      <div class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start">
+      <div class={layoutClass}>
         {
           imageLight && imageDark ? (
             <div class={imageWrapperClass}>
@@ -199,7 +201,7 @@ const imageWrapperClass =
     ) : (
       <Link
         href={link!}
-        class="flex w-full flex-col gap-4 text-left sm:flex-row sm:items-start"
+        class={layoutClass}
         external
       >
         {
