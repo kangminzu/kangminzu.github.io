@@ -2,8 +2,7 @@ import type { IconMap, NavLink, SocialLink, Site } from '@/types'
 
 export const SITE: Site = {
   title: 'minzu',
-  description:
-    'astro-erudite is a opinionated, unstyled blogging template—built with Astro, Tailwind, and shadcn/ui.',
+  description: 'Windows Security Researcher',
   href: 'https://astro-erudite.vercel.app',
   author: 'jktrn',
   locale: 'en-US',
