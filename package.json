@@ -9,6 +9,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "sync:vault": "node scripts/sync-vault.mjs",
     "prettier": "prettier --write **/*.{ts,tsx,css,astro} --ignore-path .gitignore",
     "postinstall": "patch-package"
   },
