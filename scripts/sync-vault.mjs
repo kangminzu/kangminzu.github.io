@@ -54,11 +54,11 @@ const imageLineRegex = new RegExp(
 
 function normalizeImagePath(value) {
   const normalized = value.replace(/\\/g, '/')
-  const publicMatch = normalized.match(/(?:^|\\/+)public\\/static\\/([^\\/]+)$/i)
+  const publicMatch = normalized.match(/(?:^|\/+)public\/static\/([^/]+)$/i)
   if (publicMatch) {
     return `../../../../public/static/${publicMatch[1]}`
   }
-  const assetsMatch = normalized.match(/(?:^|\\/+)assets\\/([^\\/]+)$/i)
+  const assetsMatch = normalized.match(/(?:^|\/+)assets\/([^/]+)$/i)
   if (assetsMatch) {
     return `../../../../public/static/${assetsMatch[1]}`
   }
