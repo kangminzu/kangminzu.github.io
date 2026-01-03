@@ -77,8 +77,21 @@ function expandLogoImage(contents) {
   )
 }
 
+function expandProjectImage(contents) {
+  return contents.replace(
+    /^(\s*image:\s*)(['"]?)([^'"\n]+)\2\s*$/gim,
+    (line, _prefix, quote, value) => {
+      const normalized = value.replace(/\\/g, '/')
+      if (!/project-(kernel|software)-(light|dark)\.png$/i.test(normalized)) return line
+      const light = normalized.replace(/project-(kernel|software)-(light|dark)\.png$/i, 'project-$1-light.png')
+      const dark = normalized.replace(/project-(kernel|software)-(light|dark)\.png$/i, 'project-$1-dark.png')
+      return `imageLight: ${quote}${light}${quote}\nimageDark: ${quote}${dark}${quote}`
+    }
+  )
+}
+
 function normalizeFrontmatterImages(contents) {
-  const expanded = expandLogoImage(contents)
+  const expanded = expandProjectImage(expandLogoImage(contents))
   return expanded.replace(imageLineRegex, (line, key, quote, value) => {
     const next = normalizeImagePath(value.trim())
     if (next === value.trim()) return line
