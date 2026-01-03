@@ -1,4 +1,4 @@
-import { cp, mkdir, readdir, rm, stat } from 'node:fs/promises'
+import { cp, mkdir, readdir, rm, stat, readFile, writeFile } from 'node:fs/promises'
 import { extname, resolve } from 'node:path'
 
 const vaultPath =
@@ -45,6 +45,34 @@ async function syncDir(from, to) {
   console.log(`Synced content: ${src} -> ${dest}`)
 }
 
+const imageKeys = ['image', 'imageLight', 'imageDark']
+const imageKeyPattern = imageKeys.join('|')
+const imageLineRegex = new RegExp(
+  `^\\s*(${imageKeyPattern}):\\s*(['"]?)([^'"]+)\\2\\s*$`,
+  'gmi'
+)
+
+function normalizeImagePath(value) {
+  const normalized = value.replace(/\\/g, '/')
+  const publicMatch = normalized.match(/(?:^|\\/+)public\\/static\\/([^\\/]+)$/i)
+  if (publicMatch) {
+    return `../../../../public/static/${publicMatch[1]}`
+  }
+  const assetsMatch = normalized.match(/(?:^|\\/+)assets\\/([^\\/]+)$/i)
+  if (assetsMatch) {
+    return `../../../../public/static/${assetsMatch[1]}`
+  }
+  return value
+}
+
+function normalizeFrontmatterImages(contents) {
+  return contents.replace(imageLineRegex, (line, key, quote, value) => {
+    const next = normalizeImagePath(value.trim())
+    if (next === value.trim()) return line
+    return `${key}: ${quote}${next}${quote}`
+  })
+}
+
 async function copyContentDir(src, dest) {
   const entries = await readdir(src, { withFileTypes: true })
   for (const entry of entries) {
@@ -60,13 +88,16 @@ async function copyContentDir(src, dest) {
     const ext = extname(entry.name).toLowerCase()
     if (ext !== '.md' && ext !== '.mdx') continue
 
+    const raw = await readFile(srcPath, 'utf8')
+    const contents = normalizeFrontmatterImages(raw)
+
     if (ext === '.md') {
       const mdxDest = destPath.replace(/\.md$/i, '.mdx')
-      await cp(srcPath, mdxDest)
+      await writeFile(mdxDest, contents)
       continue
     }
 
-    await cp(srcPath, destPath)
+    await writeFile(destPath, contents)
   }
 }
 
