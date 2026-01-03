@@ -65,8 +65,21 @@ function normalizeImagePath(value) {
   return value
 }
 
+function expandLogoImage(contents) {
+  return contents.replace(
+    /^(\s*image:\s*)(['"]?)([^'"\n]+)\2\s*$/gim,
+    (line, _prefix, quote, value) => {
+      if (!/logo\.(png|svg)$/i.test(value)) return line
+      const light = value.replace(/logo\.(png|svg)$/i, 'logo-light.svg')
+      const dark = value.replace(/logo\.(png|svg)$/i, 'logo-dark.svg')
+      return `imageLight: ${quote}${light}${quote}\nimageDark: ${quote}${dark}${quote}`
+    }
+  )
+}
+
 function normalizeFrontmatterImages(contents) {
-  return contents.replace(imageLineRegex, (line, key, quote, value) => {
+  const expanded = expandLogoImage(contents)
+  return expanded.replace(imageLineRegex, (line, key, quote, value) => {
     const next = normalizeImagePath(value.trim())
     if (next === value.trim()) return line
     return `${key}: ${quote}${next}${quote}`
