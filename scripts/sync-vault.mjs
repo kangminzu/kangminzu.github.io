@@ -116,15 +116,25 @@ async function copyContentDir(src, dest) {
 
     const raw = await readFile(srcPath, 'utf8')
     const contents = normalizeFrontmatterImages(raw)
+    const baseName = entry.name.slice(0, -ext.length)
+    const isSpecial = baseName === 'index' || baseName === '_template'
+    const targetDir = isSpecial ? dest : resolve(dest, slugifyFileName(baseName))
+    const targetPath = isSpecial
+      ? resolve(targetDir, `${baseName}.mdx`)
+      : resolve(targetDir, 'index.mdx')
 
-    if (ext === '.md') {
-      const mdxDest = destPath.replace(/\.md$/i, '.mdx')
-      await writeFile(mdxDest, contents)
-      continue
-    }
-
-    await writeFile(destPath, contents)
+    await mkdir(targetDir, { recursive: true })
+    await writeFile(targetPath, contents)
   }
+}
+
+function slugifyFileName(name) {
+  return name
+    .toLowerCase()
+    .replace(/[_\\s]+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 async function ensureVaultMdCopies(src) {
