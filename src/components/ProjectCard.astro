@@ -39,7 +39,7 @@ const formatMonthYear = (date: Date) =>
     year: 'numeric',
   }).format(date)
 const imageWrapperClass =
-  'bg-muted/30 flex h-36 w-full items-center justify-center overflow-hidden rounded-md border'
+  'bg-muted/30 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-md border'
 const layoutClass =
   'grid w-full gap-4 text-left sm:grid-cols-[10rem_1fr] sm:items-start'
 ---
@@ -61,14 +61,14 @@ const layoutClass =
                 alt={project.data.name}
                 width={1200}
                 height={630}
-                class="object-cover dark:hidden"
+                class="h-full w-full object-contain dark:hidden"
               />
               <Image
                 src={imageDark}
                 alt={project.data.name}
                 width={1200}
                 height={630}
-                class="hidden object-cover dark:block"
+                class="hidden h-full w-full object-contain dark:block"
               />
             </div>
           ) : (
@@ -79,7 +79,7 @@ const layoutClass =
                   alt={project.data.name}
                   width={1200}
                   height={630}
-                  class="object-cover"
+                  class="h-full w-full object-contain"
                 />
               </div>
             )
