@@ -7,14 +7,18 @@ import Layout from '@/layouts/Layout.astro'
 import {
   getAllAuthors,
   getAllCtfProjects,
+  getAllCves,
   getAllProjects,
 } from '@/lib/data-utils'
 
 const authors = await getAllAuthors()
 const ctfProjects = await getAllCtfProjects()
+const cves = await getAllCves()
 const projects = await getAllProjects()
 const ctfPreview = ctfProjects.slice(0, 2)
 const ctfRest = ctfProjects.slice(2)
+const cvePreview = cves.slice(0, 2)
+const cveRest = cves.slice(2)
 const projectPreview = projects.slice(0, 2)
 const projectRest = projects.slice(2)
 ---
@@ -59,7 +63,7 @@ const projectRest = projects.slice(2)
           <dt class="text-muted-foreground">Location</dt>
           <dd>
             <div class="flex flex-wrap gap-2">
-              <span class="rounded-full border px-2 py-0.5 text-xs">Soeul</span>
+              <span class="rounded-full border px-2 py-0.5 text-xs">Seoul</span>
               <span class="rounded-full border px-2 py-0.5 text-xs">Incheon</span>
               <span class="rounded-full border px-2 py-0.5 text-xs">Remote</span>
             </div>
@@ -120,6 +124,103 @@ const projectRest = projects.slice(2)
                   <div class="flex flex-col gap-4 px-4 pb-4">
                     {projectRest.map((project) => (
                       <ProjectCard project={project} />
+                    ))}
+                  </div>
+                </details>
+              )
+            }
+          </div>
+        </section>
+
+        <section>
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-2xl font-medium">CVE</h2>
+          </div>
+          <div class="flex flex-col gap-4">
+            {cvePreview.map((cve) => (
+              <div class="rounded-xl border p-4 shadow-sm">
+                <div class="mb-1 flex items-center justify-between gap-2">
+                  <div class="text-lg font-medium">{cve.data.cveId}</div>
+                  {
+                    cve.data.severity && (
+                      <span class="rounded-full border px-2 py-0.5 text-xs">
+                        {cve.data.severity}
+                      </span>
+                    )
+                  }
+                </div>
+                <p class="text-sm font-medium">{cve.data.title}</p>
+                <p class="text-muted-foreground text-sm">{cve.data.summary}</p>
+                <div class="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                  {cve.data.vendor && <span>Vendor · {cve.data.vendor}</span>}
+                  {cve.data.product && <span>Product · {cve.data.product}</span>}
+                  {cve.data.team && <span>Team · {cve.data.team}</span>}
+                  {cve.data.cvss && <span>CVSS · {cve.data.cvss}</span>}
+                </div>
+                <div class="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                  <span>
+                    {cve.data.published.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </span>
+                  <a
+                    class="text-primary underline-offset-2 hover:underline"
+                    href={cve.data.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    More
+                  </a>
+                </div>
+              </div>
+            ))}
+            {
+              cveRest.length > 0 && (
+                <details class="rounded-lg border">
+                  <summary class="cursor-pointer px-4 py-3 text-sm font-medium">
+                    View more
+                  </summary>
+                  <div class="flex flex-col gap-4 px-4 pb-4">
+                    {cveRest.map((cve) => (
+                      <div class="rounded-xl border p-4 shadow-sm">
+                        <div class="mb-1 flex items-center justify-between gap-2">
+                          <div class="text-lg font-medium">{cve.data.cveId}</div>
+                          {
+                            cve.data.severity && (
+                              <span class="rounded-full border px-2 py-0.5 text-xs">
+                                {cve.data.severity}
+                              </span>
+                            )
+                          }
+                        </div>
+                        <p class="text-sm font-medium">{cve.data.title}</p>
+                        <p class="text-muted-foreground text-sm">{cve.data.summary}</p>
+                        <div class="mt-2 flex flex-wrap gap-2 text-xs text-muted-foreground">
+                          {cve.data.vendor && <span>Vendor · {cve.data.vendor}</span>}
+                          {cve.data.product && <span>Product · {cve.data.product}</span>}
+                          {cve.data.team && <span>Team · {cve.data.team}</span>}
+                          {cve.data.cvss && <span>CVSS · {cve.data.cvss}</span>}
+                        </div>
+                        <div class="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                          <span>
+                            {cve.data.published.toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </span>
+                          <a
+                            class="text-primary underline-offset-2 hover:underline"
+                            href={cve.data.link}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            More
+                          </a>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </details>

@@ -45,6 +45,15 @@ export async function getAllCtfProjects(): Promise<
   })
 }
 
+export async function getAllCves(): Promise<CollectionEntry<'cves'>[]> {
+  const cves = await getCollection('cves')
+  return cves.sort((a, b) => {
+    const dateA = a.data.published?.getTime() || 0
+    const dateB = b.data.published?.getTime() || 0
+    return dateB - dateA
+  })
+}
+
 export async function getAllTagsForCollection(
   collectionName: PostCollection = 'blog',
 ): Promise<Map<string, number>> {

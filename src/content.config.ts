@@ -90,4 +90,22 @@ const ctfProjects = defineCollection({
     }),
 })
 
-export const collections = { blog, ctf, authors, projects, ctfProjects }
+const cves = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/cves' }),
+  schema: z.object({
+    cveId: z.string(),
+    title: z.string(),
+    summary: z.string(),
+    vendor: z.string().optional(),
+    product: z.string().optional(),
+    severity: z.string().optional(),
+    cvss: z.string().optional(),
+    vector: z.string().optional(),
+    team: z.string().optional(),
+    link: z.string().url(),
+    published: z.coerce.date(),
+    tags: z.array(z.string()).optional(),
+  }),
+})
+
+export const collections = { blog, ctf, authors, projects, ctfProjects, cves }
